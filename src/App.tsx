@@ -260,6 +260,13 @@ function HackCard({ hack, index }: { hack: (typeof hacks)[0]; index: number }) {
     navigator.clipboard.writeText(hack.prompt)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+    // GA4 event
+    if (typeof window !== 'undefined' && typeof (window as unknown as Record<string, unknown>).gtag === 'function') {
+      ;(window as unknown as { gtag: (...a: unknown[]) => void }).gtag('event', 'prompt_copy', {
+        hack_numero: hack.numero,
+        hack_titulo: hack.titulo,
+      })
+    }
   }
 
   return (
